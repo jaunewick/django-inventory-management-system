@@ -9,16 +9,16 @@ def home_view(request):
 # Create View
 def product_create_view(request):
     form = ProductForm()
-    if request == 'POST':
+    if request.method == 'POST':
         form = ProductForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('product_list')
-    return redirect(request, 'invApp/product_form.html', {'form': form})
+    return render(request, 'invApp/product_form.html', {'form':form})
 
 # Read View
 def product_list_view(request):
-    products = Product().objects.all()
+    products = Product.objects.all()
     return render(request, 'invApp/product_list.html', {'products':products})
 
 # Update View
@@ -30,7 +30,7 @@ def product_update_view(request, product_id):
         if form.is_valid():
             form.save()
             return redirect('product_list)')
-    return redirect(request, 'invApp/product_form.html', {'form': form})
+    return render(request, 'invApp/product_form.html', {'form': form})
 
 # Delete View
 def product_delete_view(request, product_id):
@@ -41,4 +41,4 @@ def product_delete_view(request, product_id):
         if form.is_valid():
             form.delete()
             return redirect('product_list)')
-    return redirect(request, 'invApp/product_confirm_delete.html', {'product': product})
+    return render(request, 'invApp/product_confirm_delete.html', {'product': product})
